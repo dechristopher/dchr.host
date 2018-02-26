@@ -1,6 +1,5 @@
 <?php
 $use_sts = true;
-
 // Force HTTPS (Strict Transport Security)
 if ($use_sts && isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
 	header('Strict-Transport-Security: max-age=31536000');
