@@ -2,12 +2,7 @@ console.log(`© 2018 Andrew DeChristopher ; contact for inquiries or job opportu
 
 setTimeout(function () {
 	document.getElementById('me').innerHTML = document.getElementById('me').innerHTML.replace('${me}', 'dechristopher').replace('${me}', 'dechristopher').replace('${me}', 'dechristopher');
-}, 2000);
-
+}, 7000);
 setTimeout(function () {
-	document.getElementById('me').innerText = document.getElementById('me').innerText.replace('${me}', 'dechristopher').replace('${me}', 'dechristopher').replace('${me}', 'dechristopher');
-}, 25000);
-
-setTimeout(function () {
-	document.getElementById('me').innerText = document.getElementById('me').innerText + '\nwhy are you still here?';
+	document.getElementById('me').innerHTML = document.getElementById('me').innerHTML + '\nwhy are you still here?';
 }, 35000);
