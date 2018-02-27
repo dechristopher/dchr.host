@@ -44,9 +44,7 @@ header("Cache-Control: max-age=2592000");
       display: flex;
       flex-direction: column;
       justify-content: center;
-    }
-  </style>
-  <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">-->
+    }</style>
   <link rel="stylesheet" type="text/css" href="">
 </head>
 <body>
