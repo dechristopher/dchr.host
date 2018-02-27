@@ -50,11 +50,10 @@ elseif ($use_sts) {
 </head>
 <body>
   <pre id="me"><b class="to">&#109;&#101;&#064;&#100;&#99;&#104;&#114;&#46;&#104;&#111;&#115;&#116;</b>
-github.com/${me}
-keybase.io/${me}
-dev.to/${me}
+github.com/dechristopher
+keybase.io/dechristopher
+dev.to/dechristopher
 </pre>
-<script>const me = 'dechristopher';</script>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"
   integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
   crossorigin="anonymous"></script>
