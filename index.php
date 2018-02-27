@@ -8,6 +8,7 @@ elseif ($use_sts) {
 	header('Location: https://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], true, 301);
 	die();
 }
+header("Cache-Control: max-age=2592000");
 ?>
 <!DOCTYPE html>
 <html lang="en" aria-label="dchr.host">
