@@ -6,3 +6,7 @@
   RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
   Options +FollowSymLinks
 </IfModule>
+
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf|js|css)$">
+  Header set Cache-Control "max-age=86400, public"
+</FilesMatch>
