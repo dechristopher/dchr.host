@@ -45,13 +45,20 @@ elseif ($use_sts) {
       justify-content: center;
     }
   </style>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  <link rel="stylesheet" type="text/css" href="">
 </head>
 <body>
-  <pre id="me"><b>&#109;&#101;&#064;&#100;&#99;&#104;&#114;&#46;&#104;&#111;&#115;&#116;</b>
+  <pre id="me"><b class="to">&#109;&#101;&#064;&#100;&#99;&#104;&#114;&#46;&#104;&#111;&#115;&#116;</b>
 github.com/${me}
 keybase.io/${me}
 dev.to/${me}
 </pre>
-<script async src="me.js"></script>
 <script>const me = 'dechristopher';</script>
+<script async src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/lettering.js/0.7.0/jquery.lettering.min.js"></script>
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/textillate/0.4.0/jquery.textillate.min.js"></script>
+<script async src="me.js"></script>
 </body>
