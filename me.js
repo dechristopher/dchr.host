@@ -1,4 +1,5 @@
 console.log(`© 2018 Andrew DeChristopher ; contact for inquiries or job opportunities`);
+document.addEventListener('touchstart', onTouchStart, { passive: true });
 
 $('.to').textillate({ in: { effect: 'fadeInDown', shuffle: true } });
 
