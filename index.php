@@ -14,7 +14,7 @@ header("Cache-Control: max-age=2592000");
 <html lang="en" aria-label="dchr.host">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=no">
 	<title>dchr.host</title>
 	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="res/apple-touch-icon-57x57.png" />
 	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="res/apple-touch-icon-114x114.png" />
