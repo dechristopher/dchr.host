@@ -2,25 +2,22 @@
 # service from a minimal container
 
 # ---- Build Stage ----
-
 FROM golang:latest as builder
-
-LABEL maintainer="Andrew DeChristopher"
 
 WORKDIR /build
 
 COPY go.mod .
 COPY go.sum .
 COPY main.go .
-# COPY src src
 
 RUN go mod download
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main
 
 # ---- Run Stage ----
-
 FROM scratch
+
+LABEL maintainer="Andrew DeChristopher"
 
 # Copy static resources
 COPY static static
