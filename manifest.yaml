@@ -3,13 +3,15 @@ kind: Service
 metadata:
   name: prod-web-dchr-host
 spec:
+  type: NodePort
   selector:
     app: prod-web-dchr-host
   ports:
     - name: http
       protocol: TCP
+      nodePort: 30000
       port: 7770
-      targetPort: 80
+      targetPort: 81
 
 ---
 
@@ -18,7 +20,7 @@ kind: Deployment
 metadata:
   name: prod-web-dchr-host
 spec:
-  replicas: 4
+  replicas: 5
   selector:
     matchLabels:
       app: prod-web-dchr-host
@@ -32,13 +34,13 @@ spec:
           image: registry.gitlab.com/dechristopher/dchr.host:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 80
+            - containerPort: 81
               protocol: TCP
           env:
             - name: DEPLOY
               value: "prod"
             - name: PORT
-              value: "80"
+              value: "81"
       imagePullSecrets:
         - name: regcred
 
