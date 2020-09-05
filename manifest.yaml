@@ -41,6 +41,8 @@ spec:
               value: "prod"
             - name: PORT
               value: "81"
+            - name: DEPKEY
+              value: "foo"
       imagePullSecrets:
         - name: regcred
 
