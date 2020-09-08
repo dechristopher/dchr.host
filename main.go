@@ -40,10 +40,14 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", homeHandler).Methods("GET")
 
+	//predefined route for favicon at root of domain
+	r.HandleFunc("/favicon.ico", faviconHandler)
+
 	// Serve static files from /static/res preventing directory listings
-	s := http.StripPrefix("/res",
-		http.FileServer(strictFs{http.Dir("./static/res")}))
+	sfs := http.FileServer(strictFs{http.Dir("./static/res")})
+	s := http.StripPrefix("/res", sfs)
 	r.PathPrefix("/res").Handler(s)
+
 
 	// Custom 404 page
 	r.NotFoundHandler = notFoundHandler()
@@ -92,6 +96,10 @@ func notFoundHandler() http.Handler {
 	})
 }
 
+func faviconHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./static/res/ico/favicon.ico")
+}
+
 // handleTemplate executes the given template
 func handleTemplate(w http.ResponseWriter, file, name string, data interface{}, code int) {
 	// Regen templates for development
@@ -124,6 +132,7 @@ func (sfs strictFs) Open(path string) (http.File, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	s, err := f.Stat()
 	if err == nil && s.IsDir() {
 		index := strings.TrimSuffix(path, "/") + "/index.html"
