@@ -43,7 +43,5 @@ spec:
               value: "81"
             - name: DEPKEY
               value: "foo"
-      imagePullSecrets:
-        - name: regcred
 
 ---
