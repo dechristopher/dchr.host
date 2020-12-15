@@ -4,10 +4,10 @@
 docker rmi -f registry.gitlab.com/dechristopher/dchr.host:latest
 
 # Build docker container
-docker build -t registry.gitlab.com/dechristopher/dchr.host:latest -f Dockerfile .
+DOCKER_BUILDKIT=1 docker build -t registry.gitlab.com/dechristopher/dchr.host:latest -f Dockerfile .
 
 # List images
-docker images
+# docker images
 
 # Push built container
 docker push registry.gitlab.com/dechristopher/dchr.host:latest
