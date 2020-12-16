@@ -1,0 +1,16 @@
+<script>
+  let b = true;
+  document.getElementById('to').addEventListener('click', function (e) {
+  	if (b) {
+	    b = false;
+	    document.getElementById('cpn').style.display = 'unset';
+	    navigator.clipboard.writeText(
+	    	document.getElementById('to').innerText.toLowerCase()
+      );
+	    setTimeout(() =>  {
+		    document.getElementById('cpn').style.display = 'none';
+		    b = true;
+	    }, 1300);
+    }
+  })
+</script>
