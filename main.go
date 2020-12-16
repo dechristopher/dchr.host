@@ -47,7 +47,7 @@ func main() {
 	r.HandleFunc("/gw.png", gwHandler)
 
 	//predefined route for Glassworks jenkins logo
-	r.HandleFunc("/jenkins-gw.png", gwHandler)
+	r.HandleFunc("/jenkins-gw.png", jgwHandler)
 
 	// Serve static files from /static/res preventing directory listings
 	sfs := http.FileServer(strictFs{http.Dir("./static/res")})
@@ -92,12 +92,20 @@ func main() {
 
 // homeHandler executes the home page template
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	handleTemplate(w, "index.html", "me", nil, 200)
+	if r.Host == "fbfiber.net" || r.Host == "www.fbfiber.net" || r.Host == "localhost:1337" {
+		handleTemplate(w, "ff.html", "Coming Soon", nil, 200)
+	} else {
+		handleTemplate(w, "index.html", "me", nil, 200)
+	}
 }
 
 func notFoundHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		handleTemplate(w, "404.html", "404", nil, 404)
+		if r.Host == "fbfiber.net" || r.Host == "www.fbfiber.net" || r.Host == "localhost:1337" {
+			handleTemplate(w, "ff404.html", "404", nil, 404)
+		} else {
+			handleTemplate(w, "404.html", "404", nil, 404)
+		}
 	})
 }
 
@@ -107,6 +115,10 @@ func faviconHandler(w http.ResponseWriter, r *http.Request) {
 
 func gwHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "./static/res/gw.png")
+}
+
+func jgwHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "./static/res/jenkins-gw.png")
 }
 
 // handleTemplate executes the given template
