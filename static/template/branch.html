@@ -35,7 +35,7 @@
   </select><br/>
 
   <button type="button" id="add" style="font-size: 16px; width:40px;">+</button>
-  <button type="button" id="del" style="font-size: 16px; width: 40px" {{ if .Data }}{{ $dests := len .Data.Destinations }} {{ if eq $dests 0 }}disabled{{ end }}{{ end }}>−</button>
+  <button type="button" id="del" style="font-size: 16px; width: 40px" {{ if .Data }}{{ $dests := len .Data.Destinations }} {{ if eq $dests 1 }}disabled{{ end }}{{ end }}>−</button>
   <br/>
 
   <div id="dests" style="margin-top: 20px;">
