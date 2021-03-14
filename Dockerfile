@@ -9,6 +9,7 @@ WORKDIR /build
 COPY go.mod .
 COPY go.sum .
 COPY main.go .
+COPY src src
 
 RUN go mod download
 
