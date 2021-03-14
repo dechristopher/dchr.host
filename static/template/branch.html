@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en" aria-label="dchr.host">
+{{ template "head.html" .PageName }}
+<body style="display: block; margin-top: 40px;">
+<h2 style="margin: 0; color: #008751">Katahdin Trust</h2>
+<p style="margin: 0">Branch Trip Calculator</p>
+
+<hr style="width: 200px;"/>
+{{ if .Data }}
+<span>Trip Distance: {{ .Data.Distance }} miles</span><br />
+<span>Round-trip Time: {{ .Data.Time }} hours</span><br />
+<span>Reimbursement: ~${{ .Data.Cost }}</span><br />
+<hr style="width: 200px;"/>
+{{ end }}
+<form method="post" action="/branch">
+  <label for="origin">Origin: </label>
+  <select name="origin" id="origin" required style="margin-bottom: 20px">
+    <option value="" disabled hidden>Select a branch</option>
+    <option value="0" {{ if .Data}}{{if eq .Data.Origin 0}}selected{{end}}{{end}}>Concord</option>
+    <option value="1" {{ if .Data}}{{if eq .Data.Origin 1}}selected{{end}}{{end}}>Scarborough</option>
+    <option value="2" {{ if .Data}}{{if eq .Data.Origin 2}}selected{{end}}{{end}}>Hampden</option>
+    <option value="3" {{ if .Data}}{{if eq .Data.Origin 3}}selected{{end}}{{end}}>Bangor</option>
+    <option value="4" {{ if .Data}}{{if eq .Data.Origin 4}}selected{{end}}{{end}}>Patten</option>
+    <option value="5" {{ if .Data}}{{if eq .Data.Origin 5}}selected{{end}}{{end}}>Island Falls</option>
+    <option value="6" {{ if .Data}}{{if eq .Data.Origin 6}}selected{{end}}{{end}}>Oakfield</option>
+    <option value="7" {{ if .Data}}{{if eq .Data.Origin 7}}selected{{end}}{{end}}>Houlton</option>
+    <option value="8" {{ if .Data}}{{if eq .Data.Origin 8}}selected{{end}}{{end}}>Mars Hill</option>
+    <option value="9" {{ if .Data}}{{if eq .Data.Origin 9}}selected{{end}}{{end}}v>Presque Isle</option>
+    <option value="10" {{ if .Data}}{{if eq .Data.Origin 10}}selected{{end}}{{end}}>Ashland</option>
+    <option value="11" {{ if .Data}}{{if eq .Data.Origin 11}}selected{{end}}{{end}}>Fort Fairfield</option>
+    <option value="12" {{ if .Data}}{{if eq .Data.Origin 12}}selected{{end}}{{end}}>Caribou</option>
+    <option value="13" {{ if .Data}}{{if eq .Data.Origin 13}}selected{{end}}{{end}}>Van Buren</option>
+    <option value="14" {{ if .Data}}{{if eq .Data.Origin 14}}selected{{end}}{{end}}>Eagle Lake</option>
+    <option value="15" {{ if .Data}}{{if eq .Data.Origin 15}}selected{{end}}{{end}}>Fort Kent</option>
+  </select><br/>
+
+  <button type="button" id="add" style="font-size: 16px; width:40px;">+</button>
+  <button type="button" id="del" style="font-size: 16px; width: 40px" {{ if .Data }}{{ $dests := len .Data.Destinations }} {{ if eq $dests 0 }}disabled{{ end }}{{ end }}>−</button>
+  <br/>
+
+  <div id="dests" style="margin-top: 20px;">
+    {{ if .Data }}
+    {{ range $i, $e := .Data.Destinations }}
+    <label for="d{{inc $i}}" id="l{{inc $i}}">Dest {{inc $i}}:</label>
+    <select name="d{{inc $i}}" id="d{{inc $i}}" required>
+      <option value="" disabled hidden>Select a branch</option>
+      <option value="0" {{if eq . 0}}selected{{end}}>Concord</option>
+      <option value="1" {{if eq . 1}}selected{{end}}>Scarborough</option>
+      <option value="2" {{if eq . 2}}selected{{end}}>Hampden</option>
+      <option value="3" {{if eq . 3}}selected{{end}}>Bangor</option>
+      <option value="4" {{if eq . 4}}selected{{end}}>Patten</option>
+      <option value="5" {{if eq . 5}}selected{{end}}>Island Falls</option>
+      <option value="6" {{if eq . 6}}selected{{end}}>Oakfield</option>
+      <option value="7" {{if eq . 7}}selected{{end}}>Houlton</option>
+      <option value="8" {{if eq . 8}}selected{{end}}>Mars Hill</option>
+      <option value="9" {{if eq . 9}}selected{{end}}>Presque Isle</option>
+      <option value="10" {{if eq . 10}}selected{{end}}>Ashland</option>
+      <option value="11" {{if eq . 11}}selected{{end}}>Fort Fairfield</option>
+      <option value="12" {{if eq . 12}}selected{{end}}>Caribou</option>
+      <option value="13" {{if eq . 13}}selected{{end}}>Van Buren</option>
+      <option value="14" {{if eq . 14}}selected{{end}}>Eagle Lake</option>
+      <option value="15" {{if eq . 15}}selected{{end}}>Fort Kent</option>
+    </select><br id="br{{ inc $i }}"/>
+    {{ end }}
+    {{ else }}
+    <label for="d1" id="l1">Dest 1:</label>
+    <select name="d1" id="d1" required>
+      <option value="" disabled selected hidden>Select a branch</option>
+      <option value="0">Concord</option>
+      <option value="1" selected>Scarborough</option>
+      <option value="2">Hampden</option>
+      <option value="3">Bangor</option>
+      <option value="4">Patten</option>
+      <option value="5">Island Falls</option>
+      <option value="6">Oakfield</option>
+      <option value="7">Houlton</option>
+      <option value="8">Mars Hill</option>
+      <option value="9">Presque Isle</option>
+      <option value="10">Ashland</option>
+      <option value="11">Fort Fairfield</option>
+      <option value="12">Caribou</option>
+      <option value="13">Van Buren</option>
+      <option value="14">Eagle Lake</option>
+      <option value="15">Fort Kent</option>
+    </select><br id="br1"/>
+    {{ end }}
+  </div>
+
+  <hr style="width: 200px;"/>
+  <button type="submit" name="calc" value="1" style="margin-top: 10px; width: 84px; font-size: 16px">
+    Calculate
+  </button><br />
+  <a href="#" onclick="info();">Info</a>
+</form>
+
+<script>
+	{{ if .Data }}
+    {{ $dests := len .Data.Destinations }}
+    let dest = {{ $dests }};
+  {{ else }}
+	let dest = 1;
+  {{ end }}
+
+	const dests = [
+		"Concord", "Scarborough", "Hampden", "Bangor", "Patten",
+		"Island Falls", "Oakfield", "Houlton", "Mars Hill",
+		"Presque Isle", "Ashland", "Fort Fairfield", "Caribou",
+		"Van Buren", "Eagle Lake", "Fort Kent",
+	]
+
+	document.getElementById("add").onclick = () => {
+		document.getElementById("del").removeAttribute("disabled");
+		dest++;
+
+		let d = document.getElementById("dests");
+
+		// create label
+		let l = document.createElement("label");
+		l.for = "d" + dest;
+		l.id = "l" + dest;
+		l.innerText = "Dest " + dest + ": ";
+		d.appendChild(l);
+
+		// create select
+		let s = document.createElement("select");
+		s.name = "d" + dest;
+		s.id = "d" + dest;
+		s.required = true;
+
+		// create placeholder option
+		let ph = document.createElement("option")
+		ph.value = "";
+		ph.innerText = "Select a branch";
+		ph.disabled = true;
+		ph.selected = true;
+		ph.hidden = true;
+		s.appendChild(ph);
+
+		for (let i = 0; i < dests.length; i++) {
+			let o = document.createElement("option")
+			o.value = "" + i;
+			o.innerText = dests[i];
+			s.appendChild(o);
+		}
+		d.appendChild(s);
+
+		let br = document.createElement("br");
+		br.id = "br" + dest;
+		d.appendChild(br);
+	};
+
+	document.getElementById("del").onclick = () => {
+		if (dest > 1) {
+			document.getElementById("d" + dest).remove();
+			document.getElementById("l" + dest).remove();
+			document.getElementById("br" + dest).remove();
+			dest--;
+		}
+		if (dest === 1) {
+			document.getElementById("del").setAttribute("disabled", "");
+		}
+	}
+
+	const info = () => {
+		alert("IRS Standard Mileage Rate 2021: $0.56/mi (IR-2020-279)")
+  }
+</script>
+{{ template "scripts.html" }}
+</body>
+</html>
