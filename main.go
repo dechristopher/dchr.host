@@ -5,14 +5,18 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/gorilla/mux"
 	"github.com/joho/godotenv"
+
+	"github.com/dechristopher/dchr.host/src/branch"
 )
 
 type env string
@@ -24,8 +28,15 @@ const (
 
 var (
 	port string
-	t, _ = template.ParseGlob("static/template/*")
 	err  error
+
+	funcMap = template.FuncMap{
+		"inc": func(i int) int {
+			return i + 1
+		},
+	}
+	t, _ = template.New("").Funcs(funcMap).
+		ParseGlob("static/template/*")
 
 	wait time.Duration
 )
@@ -39,6 +50,10 @@ func main() {
 
 	r := mux.NewRouter()
 	r.HandleFunc("/", homeHandler).Methods("GET")
+
+	// branch calculator
+	r.HandleFunc("/branch", branchHandler).Methods("GET")
+	r.HandleFunc("/branch", branchCalcHandler).Methods("POST")
 
 	//predefined route for favicon at root of domain
 	r.HandleFunc("/favicon.ico", faviconHandler)
@@ -91,21 +106,104 @@ func main() {
 }
 
 // homeHandler executes the home page template
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	if r.Host == "fbfiber.net" || r.Host == "www.fbfiber.net" || r.Host == "localhost:1337" {
-		handleTemplate(w, "ff.html", "Coming Soon", nil, 200)
-	} else {
-		handleTemplate(w, "index.html", "me", nil, 200)
+func homeHandler(w http.ResponseWriter, _ *http.Request) {
+	handleTemplate(w, "index.html", "me", nil, 200)
+}
+
+// branchHandler executes the branch calculator page template
+func branchHandler(w http.ResponseWriter, _ *http.Request) {
+	handleTemplate(w, "branch.html", "Branch Calculator", nil, 200)
+}
+
+// branchHandler executes the branch calculator page template
+func branchCalcHandler(w http.ResponseWriter, r *http.Request) {
+	// parse form
+	err = r.ParseForm()
+	if err != nil {
+		http.Redirect(w, r, "/branch#oops", http.StatusFound)
+		return
 	}
+
+	// ensure valid submission
+	if r.Form.Get("calc") == "" {
+		http.Redirect(w, r, "/branch#oops", http.StatusFound)
+		return
+	}
+
+	o := r.Form.Get("origin")
+	if o == "" {
+		http.Redirect(w, r, "/branch#error", http.StatusFound)
+		return
+	}
+
+	bid, err := strconv.Atoi(o)
+	if err != nil {
+		http.Redirect(w, r, "/branch#error", http.StatusFound)
+		return
+	}
+
+	origin := branch.Get(bid)
+	if origin == branch.NoBranch {
+		http.Redirect(w, r, "/branch#error", http.StatusFound)
+		return
+	}
+
+	var branches branch.Branches
+
+	// assemble destination branches
+	destNum := 1
+	for {
+		key := fmt.Sprintf("d%d", destNum)
+		destSelection := r.Form.Get(key)
+		if destSelection == "" {
+			break
+		}
+
+		dbid, err := strconv.Atoi(destSelection)
+
+		if err != nil {
+			http.Redirect(w, r, "/branch#oops", http.StatusFound)
+			return
+		}
+
+		dest := branch.Get(dbid)
+		if dest == branch.NoBranch {
+			http.Redirect(w, r, "/branch#oops", http.StatusFound)
+			return
+		}
+
+		branches = append(branches, dest)
+
+		destNum++
+	}
+
+	var calc branch.Calculation
+
+	if len(branches) != 0 {
+		log.Printf("%+v", branches)
+
+		// calculate result
+		dist := origin.RoundTrip(branches...)
+
+		calc = branch.Calculation{
+			Distance: dist,
+			Cost: math.Ceil(((float64(dist) *
+				branch.FedMileage2021) * 100) / 100),
+			Time: math.Ceil(((float64(dist) /
+				float64(branch.AverageSpeedLimit)) * 100) / 100),
+			Origin:       origin,
+			Destinations: branches,
+		}
+
+		log.Printf("%+v", calc)
+	}
+
+	handleTemplate(w, "branch.html", "Branch Calculator", calc, 200)
 }
 
 func notFoundHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if r.Host == "fbfiber.net" || r.Host == "www.fbfiber.net" || r.Host == "localhost:1337" {
-			handleTemplate(w, "ff404.html", "404", nil, 404)
-		} else {
-			handleTemplate(w, "404.html", "404", nil, 404)
-		}
+		handleTemplate(w, "404.html", "404", nil, 404)
 	})
 }
 
@@ -125,7 +223,8 @@ func jgwHandler(w http.ResponseWriter, r *http.Request) {
 func handleTemplate(w http.ResponseWriter, file, name string, data interface{}, code int) {
 	// Regen templates for development
 	if getEnv() == dev {
-		t, err = template.ParseGlob("static/template/*")
+		t, err = template.New("").Funcs(funcMap).
+			ParseGlob("static/template/*")
 	}
 	if err != nil {
 		log.Printf("Template parse failed error=%s", err.Error())
