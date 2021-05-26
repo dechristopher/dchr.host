@@ -1,4 +1,41 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/1.13.1/mapbox-gl.min.js"
+        integrity="sha512-WyDTdfP+imWTh/TVkV0xSt25+8GKtsChAgi2zuVJtxFyseDAFI3oKnf5AZoaQ7pD1190EpO3ccUJXJk02z2jvw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-  const logMe = () => console.log(`© 2020 Andrew DeChristopher; contact for inquiries or job opportunities`);
-  window.addEventListener('load', logMe);
+	const logMe = () => console.log(`© 2020 Andrew DeChristopher; contact for inquiries or job opportunities`);
+	window.addEventListener('load', logMe);
+
+	let map = new mapboxgl.Map({
+		container: 'map',
+		style: '/res/style.json',
+		interactive: false,
+		center: [
+			-71.09718292951584,
+			42.34666268846195
+		],
+		maxBounds: [
+			[-74.92, 40.55],
+			[-68.26, 43.42]
+		],
+		minZoom: 2,
+		zoom: 14,
+		pitch: 30
+	});
+
+	const fly = () => {
+		map.flyTo({
+			center: [
+				-71.09718292951584 + (Math.random() - 0.5) * 0.07,
+				42.34666268846195 + (Math.random() - 0.5) * 0.07
+			],
+			duration: 6000,
+			speed: 0.1,
+			curve: (t) => {
+				return t * t * t;
+			},
+			essential: true
+		});
+	};
+
+	setInterval(() => fly(), 10000);
 </script>

@@ -1,45 +1,63 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
   <title>{{ . }} ― dchr.host</title>
-  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/res/ico/apple-touch-icon-57x57.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/res/ico/apple-touch-icon-72x72.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/res/ico/apple-touch-icon-76x76.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/res/ico/apple-touch-icon-114x114.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/res/ico/apple-touch-icon-120x120.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/res/ico/apple-touch-icon-144x144.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/res/ico/apple-touch-icon-152x152.png" />
-  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/res/ico/apple-touch-icon-180x180.png" />
-  <link rel="icon" type="image/png" href="/res/ico/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="/res/ico/favicon-16x16.png" sizes="16x16" />
+  <link rel="apple-touch-icon-precomposed" sizes="57x57" href="/res/ico/apple-touch-icon-57x57.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/res/ico/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="76x76" href="/res/ico/apple-touch-icon-76x76.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/res/ico/apple-touch-icon-114x114.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="120x120" href="/res/ico/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/res/ico/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="152x152" href="/res/ico/apple-touch-icon-152x152.png"/>
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/res/ico/apple-touch-icon-180x180.png"/>
+  <link rel="icon" type="image/png" href="/res/ico/favicon-32x32.png" sizes="32x32"/>
+  <link rel="icon" type="image/png" href="/res/ico/favicon-16x16.png" sizes="16x16"/>
   <link rel="mask-icon" href="/res/ico/safari-pinned-tab.svg" color="#5bbad5">
   <link rel="manifest" href="/res/site.webmanifest">
-  <meta name="msapplication-TileImage" content="res/ico/mstile-144x144.png" />
-  <meta name="msapplication-square150x150logo" content="/res/ico/mstile-150x150.png" />
-  <meta name="msapplication-TileColor" content="#00A300" />
-  <meta name="application-name" content="dchr.host" />
-  <meta name="description" content="Andrew DeChristopher's personal site with links to his Keybase, GitHub, and personal blog." />
-  <meta name="keywords" content="Andrew,DeChristopher,personal,website,blog,github,keybase,dchr,host,juke,vote" />
+  <meta name="msapplication-TileImage" content="res/ico/mstile-144x144.png"/>
+  <meta name="msapplication-square150x150logo" content="/res/ico/mstile-150x150.png"/>
+  <meta name="msapplication-TileColor" content="#00A300"/>
+  <meta name="application-name" content="dchr.host"/>
+  <meta name="description"
+        content="Andrew DeChristopher's personal site with links to his Keybase, GitHub, and personal blog."/>
+  <meta name="keywords" content="Andrew,DeChristopher,personal,website,blog,github,keybase,dchr,host,juke,vote"/>
   <style>
-    html, body, pre {
-      margin: 0;
-      height: 100%;
-      font-size: large;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    span {
-      cursor: pointer;
-    }
-    .to {
-      font-weight: bold;
-      font-size: 28px;
-      margin-bottom: -16px;
-    }
-    .t404 {
-      font-size: 52px;
-    }
+	  html, body, pre {
+		  margin: 0;
+		  height: 100%;
+		  font-size: large;
+		  display: flex;
+		  flex-direction: column;
+		  justify-content: center;
+		  align-items: center;
+	  }
+
+	  pre {
+		  z-index: 1000;
+		  background-color: rgba(240, 240, 220, 0.85);
+		  padding: 12px;
+		  height: auto;
+	  }
+
+	  span {
+		  cursor: pointer;
+	  }
+
+	  #map {
+		  position: absolute;
+		  top: 0;
+		  bottom: 0;
+		  width: 100%;
+	  }
+
+	  .to {
+		  font-weight: bold;
+		  font-size: 28px;
+		  margin-bottom: -16px;
+	  }
+
+	  .t404 {
+		  font-size: 52px;
+	  }
   </style>
 </head>
