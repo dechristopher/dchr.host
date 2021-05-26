@@ -122,9 +122,6 @@ func PickFS(useDisk bool, e embed.FS, dir string) http.FileSystem {
 // CorsOrigins returns the proper CORS origin configuration
 // for the current environment
 func CorsOrigins() string {
-	if IsProd() {
-		return "https://dchr.host,https://*.dchr.host"
-	}
 	return "http://localhost:1337, " +
 		"http://localhost:3000, " +
 		"https://dchr.host, " +
