@@ -36,27 +36,6 @@ func Get(branch int) Branch {
 	return Branch(branch)
 }
 
-// Names is a mapping from Branch to branch name string
-var Names = map[Branch]string{
-	Concord:       "Concord",
-	Scarborough:   "Scarborough",
-	Hampden:       "Hampden",
-	Bangor:        "Bangor",
-	Patten:        "Patten",
-	IslandFalls:   "Island Falls",
-	Oakfield:      "Oakfield",
-	Houlton:       "Houlton",
-	MarsHill:      "Mars Hill",
-	PresqueIsle:   "Presque Isle",
-	Ashland:       "Ashland",
-	FortFairfield: "Fort Fairfield",
-	Caribou:       "Caribou",
-	VanBuren:      "Van Buren",
-	EagleLake:     "Eagle Lake",
-	FortKent:      "Fort Kent",
-	NoBranch:      "Invalid Branch",
-}
-
 // DistanceVector is an ordered list of distances to other branches following
 // the defined branch order
 type DistanceVector = []int

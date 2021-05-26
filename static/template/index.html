@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" aria-label="dchr.host">
-{{ template "head.html" .PageName }}
+{{ template "partials/head" .PageName }}
 <body>
 <pre>
 Andrew DeChristopher
@@ -9,6 +7,6 @@ github.com/dechristopher
 keybase.io/dechristopher
 </pre>
 <div id="map"></div>
-{{ template "scripts.html" }}
+{{ template "partials/scripts" }}
+{{ template "partials/map" }}
 </body>
-</html>

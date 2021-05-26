@@ -8,44 +8,35 @@ import (
 	"strconv"
 
 	"github.com/dechristopher/dchr.host/src/common"
+	"github.com/gofiber/fiber/v2"
 )
 
 // Handler executes the branch calculator page template
-func Handler(w http.ResponseWriter, _ *http.Request) {
-	common.HandleTemplate(w, "branch.html", "Branch Calculator", nil, 200)
+func Handler(c *fiber.Ctx) error {
+	return common.HandleTemplate(c, "branch",
+		"Branch Calculator", nil, 200)
 }
 
 // CalcHandler executes the branch calculator page template
-func CalcHandler(w http.ResponseWriter, r *http.Request) {
-	// parse form
-	err := r.ParseForm()
-	if err != nil {
-		http.Redirect(w, r, "/branch#oops", http.StatusFound)
-		return
-	}
-
+func CalcHandler(c *fiber.Ctx) error {
 	// ensure valid submission
-	if r.Form.Get("calc") == "" {
-		http.Redirect(w, r, "/branch#oops", http.StatusFound)
-		return
+	if c.FormValue("calc") == "" {
+		return c.Redirect("/branch#oops", http.StatusFound)
 	}
 
-	o := r.Form.Get("origin")
+	o := c.FormValue("origin")
 	if o == "" {
-		http.Redirect(w, r, "/branch#error", http.StatusFound)
-		return
+		return c.Redirect("/branch#error", http.StatusFound)
 	}
 
 	bid, err := strconv.Atoi(o)
 	if err != nil {
-		http.Redirect(w, r, "/branch#error", http.StatusFound)
-		return
+		return c.Redirect("/branch#error", http.StatusFound)
 	}
 
 	origin := Get(bid)
 	if origin == NoBranch {
-		http.Redirect(w, r, "/branch#error", http.StatusFound)
-		return
+		return c.Redirect("/branch#error", http.StatusFound)
 	}
 
 	var branches Branches
@@ -54,22 +45,20 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	destNum := 1
 	for {
 		key := fmt.Sprintf("d%d", destNum)
-		destSelection := r.Form.Get(key)
+		destSelection := c.FormValue(key)
 		if destSelection == "" {
 			break
 		}
 
-		dbid, err := strconv.Atoi(destSelection)
+		dbId, err := strconv.Atoi(destSelection)
 
 		if err != nil {
-			http.Redirect(w, r, "/branch#oops", http.StatusFound)
-			return
+			return c.Redirect("/branch#oops", http.StatusFound)
 		}
 
-		dest := Get(dbid)
+		dest := Get(dbId)
 		if dest == NoBranch {
-			http.Redirect(w, r, "/branch#oops", http.StatusFound)
-			return
+			return c.Redirect("/branch#error", http.StatusFound)
 		}
 
 		branches = append(branches, dest)
@@ -96,5 +85,5 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 		log.Printf("%+v", calc)
 	}
 
-	common.HandleTemplate(w, "branch.html", "Branch Calculator", calc, 200)
+	return common.HandleTemplate(c, "branch", "Branch Calculator", calc, 200)
 }

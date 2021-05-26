@@ -12,8 +12,8 @@
       "maxzoom": 16
     }
   },
-  "glyphs": "https://dchr.host/res/carto/font/{fontstack}/{range}.pbf",
-  "sprite": "https://dchr.host/res/carto/sprite/streets/streets",
+  "glyphs": "https://dchr.host/carto/font/{fontstack}/{range}.pbf",
+  "sprite": "https://dchr.host/carto/sprite/streets",
   "layers": [
     {
       "id": "background",

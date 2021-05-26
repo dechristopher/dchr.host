@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" aria-label="dchr.host">
-{{ template "head.html" .PageName }}
+{{ template "partials/head" .PageName }}
 <body style="display: block; margin-top: 40px;">
 <h2 style="margin: 0; color: #008751">Katahdin Trust</h2>
 <p style="margin: 0">Branch Trip Calculator</p>
@@ -165,6 +163,5 @@
 		alert("IRS Standard Mileage Rate 2021: $0.56/mi (IR-2020-279)")
   }
 </script>
-{{ template "scripts.html" }}
+{{ template "partials/scripts" }}
 </body>
-</html>

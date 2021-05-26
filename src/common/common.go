@@ -1,53 +1,23 @@
 package common
 
 import (
-	"html/template"
+	"embed"
+	"io/fs"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strings"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 type Env string
 
 const (
-	prod Env = "prod"
-	dev  Env = "dev"
+	Prod Env = "prod"
+	Dev  Env = "dev"
 )
-
-var (
-	err error
-
-	funcMap = template.FuncMap{
-		"inc": func(i int) int {
-			return i + 1
-		},
-	}
-
-	t, _ = template.New("").Funcs(funcMap).
-		ParseGlob("static/template/*")
-)
-
-// HandleTemplate executes the given template
-func HandleTemplate(w http.ResponseWriter, file, name string, data interface{}, code int) {
-	// Regen templates for development
-	if GetEnv() == dev {
-		t, err = template.New("").Funcs(funcMap).
-			ParseGlob("static/template/*")
-	}
-	if err != nil {
-		log.Printf("Template parse failed error=%s", err.Error())
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
-	w.WriteHeader(code)
-	errX := t.ExecuteTemplate(w, file, GenPageModel(name, data))
-	if errX != nil {
-		log.Printf("Template execution failed error=%s", errX.Error())
-		http.Error(w, errX.Error(), 500)
-	}
-}
 
 // StrictFs is a Custom strict filesystem implementation to
 // prevent directory listings for resources
@@ -57,11 +27,26 @@ type StrictFs struct {
 
 // Open only allows existing files to be pulled, not directories
 func (sfs StrictFs) Open(path string) (http.File, error) {
+	// url decode path to support encoded characters
+	path, err := url.QueryUnescape(path)
+	if err != nil {
+		log.Printf("StrictFS error: %s, %s", path, err.Error())
+		return nil, err
+	}
+
+	// trim trailing slashes to avoid invalid path errors
+	// in fiber's filesystem middleware
+	if path != "/" {
+		path = strings.TrimSuffix(path, "/")
+	}
+
+	// open file directly if it exists
 	f, err := sfs.Fs.Open(path)
 	if err != nil {
 		return nil, err
 	}
 
+	// prevent directory listings, only show index file if any
 	s, err := f.Stat()
 	if err == nil && s.IsDir() {
 		index := strings.TrimSuffix(path, "/") + "/index.html"
@@ -75,9 +60,29 @@ func (sfs StrictFs) Open(path string) (http.File, error) {
 // GetEnv returns the current environment
 func GetEnv() Env {
 	if os.Getenv("DEPLOY") == "prod" {
-		return prod
+		return Prod
 	}
-	return dev
+	return Dev
+}
+
+// IsProd returns true if running in production
+func IsProd() bool {
+	return GetEnv() == Prod
+}
+
+// HandleTemplate will execute the http template engine
+// with the given template, name, data, and status
+func HandleTemplate(
+	c *fiber.Ctx,
+	template string,
+	name string,
+	data interface{},
+	status int,
+) error {
+	return c.Status(status).Render(
+		template,
+		GenPageModel(name, data),
+		"layouts/main")
 }
 
 // PageModel contains runtime information that
@@ -95,4 +100,33 @@ func GenPageModel(name string, data interface{}) PageModel {
 		PageName: name,
 		Data:     data,
 	}
+}
+
+// PickFS returns either an embedded FS or an on-disk FS for the
+// given directory path
+func PickFS(useDisk bool, e embed.FS, dir string) http.FileSystem {
+	if useDisk {
+		log.Printf("PickFS - picked disk: %s", dir)
+		return http.Dir(dir)
+	}
+
+	efs, err := fs.Sub(e, strings.Trim(dir, "./"))
+	if err != nil {
+		panic(err)
+	}
+
+	log.Printf("PickFS - picked embedded: %s", dir)
+	return http.FS(efs)
+}
+
+// CorsOrigins returns the proper CORS origin configuration
+// for the current environment
+func CorsOrigins() string {
+	if IsProd() {
+		return "https://dchr.host,https://*.dchr.host"
+	}
+	return "http://localhost:1337, " +
+		"http://localhost:3000, " +
+		"https://dchr.host, " +
+		"https://*.dchr.host"
 }
