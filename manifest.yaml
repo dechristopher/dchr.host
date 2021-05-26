@@ -42,6 +42,6 @@ spec:
             - name: PORT
               value: "81"
             - name: DEPKEY
-              value: "fizzbaz"
+              value: "fazzbiz"
 
 ---
