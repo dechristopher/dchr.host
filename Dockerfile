@@ -2,7 +2,7 @@
 # service from a minimal container
 
 # ---- Build Stage ----
-FROM golang:latest as builder
+FROM golang:1.16.4-stretch as builder
 
 WORKDIR /build
 
@@ -10,6 +10,9 @@ COPY go.mod .
 COPY go.sum .
 COPY main.go .
 COPY src src
+
+# Compile in embedded assets (1.16+)
+COPY static static
 
 RUN go mod download
 
@@ -20,10 +23,7 @@ FROM scratch
 
 LABEL maintainer="Andrew DeChristopher"
 
-# Copy static resources
-COPY static static
-
-# Copy statically linked binary
+# Copy statically linked binary with embedded assets
 COPY --from=builder build/main .
 
 STOPSIGNAL SIGINT
