@@ -2,7 +2,7 @@
 # service from a minimal container
 
 # ---- Build Stage ----
-FROM golang:1.16.4-stretch as builder
+FROM golang:1.16.4-alpine3.13 as builder
 
 WORKDIR /build
 
