@@ -28,7 +28,6 @@ COPY --from=builder build/main .
 
 STOPSIGNAL SIGINT
 
-# Run app
-CMD ["./main"]
+ENTRYPOINT ["./main"]
 
 # !! Run from docker-build.sh PLEASE !!
