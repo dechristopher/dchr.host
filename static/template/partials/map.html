@@ -1,38 +1,79 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/1.13.1/mapbox-gl.min.js"
-        integrity="sha512-WyDTdfP+imWTh/TVkV0xSt25+8GKtsChAgi2zuVJtxFyseDAFI3oKnf5AZoaQ7pD1190EpO3ccUJXJk02z2jvw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+				integrity="sha512-WyDTdfP+imWTh/TVkV0xSt25+8GKtsChAgi2zuVJtxFyseDAFI3oKnf5AZoaQ7pD1190EpO3ccUJXJk02z2jvw=="
+				crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+	const lat = '{{ .Lat }}';
+	const lon = '{{ .Lon }}';
+	const zoom = '{{ .Zoom }}';
+	const pitch = '{{ .Pitch }}';
+	const bearing = '{{ .Bearing }}';
+
+	const getCenter = () => {
+		if (lat === '' || lon === '') {
+			return [-71.5, 42.2];
+		}
+
+		return [lon, lat];
+	};
+
+	const getZoom = () => {
+		if (zoom === '0') {
+			return 8;
+		}
+
+		return zoom;
+	};
+
+	const getPitch = () => {
+		if (pitch === '0') {
+			return 0;
+		}
+
+		return pitch;
+	};
+
+	const getBearing = () => {
+		if (bearing === '0') {
+			return 0;
+		}
+
+		return bearing;
+	};
+
 	let map = new mapboxgl.Map({
 		container: 'map',
 		style: '/style.json',
-		interactive: false,
-		center: [
-			-71.09718292951584,
-			42.34666268846195
-		],
+		center: getCenter(),
 		maxBounds: [
 			[-74.92, 40.55],
 			[-68.26, 43.42]
 		],
-		minZoom: 2,
-		zoom: 14,
-		pitch: 30
+		minZoom: 7,
+		maxZoom: 17,
+		zoom: getZoom(),
+		pitch: getPitch(),
+		bearing: getBearing()
 	});
 
-	const fly = () => {
-		map.flyTo({
-			center: [
-				-71.09718292951584 + (Math.random() - 0.5) * 0.07,
-				42.34666268846195 + (Math.random() - 0.5) * 0.07
-			],
-			duration: 6000,
-			speed: 0.1,
-			curve: (t) => {
-				return t * t * t;
-			},
-			essential: true
-		});
-	};
+  // Add zoom and rotation controls to the map.
+  map.addControl(new mapboxgl.NavigationControl());
 
-	setInterval(() => fly(), 10000);
+  let pitchBearing = () => {
+	  if (map.getPitch() > 0 || map.getBearing() !== 0 || map.getBearing() !== -0 || map.getBearing() !== 0.0  || map.getBearing() !== -0.0) {
+	    console.log('hit', map.getPitch(), map.getBearing());
+		  return `,${map.getPitch().toFixed(1)},${map.getBearing().toFixed(1)}`;
+	  }
+	  return '';
+  }
+
+	map.on('move', (e) => {
+		if (map) {
+			let {lng, lat} = map.getCenter();
+			let zoom = map.getZoom();
+
+			window.history.replaceState(null, 'map',
+				`/map/@${lat.toFixed( zoom / 3 )},${lng.toFixed( zoom / 3 )}`
+					+ `,${zoom.toFixed(1)}z${pitchBearing()}`);
+		}
+	});
 </script>
