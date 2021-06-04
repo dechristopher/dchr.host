@@ -58,22 +58,40 @@
   // Add zoom and rotation controls to the map.
   map.addControl(new mapboxgl.NavigationControl());
 
+  // return pitch and bearing params if either are set
   let pitchBearing = () => {
 	  if (map.getPitch() > 0 || map.getBearing() !== 0 || map.getBearing() !== -0 || map.getBearing() !== 0.0  || map.getBearing() !== -0.0) {
-	    console.log('hit', map.getPitch(), map.getBearing());
 		  return `,${map.getPitch().toFixed(1)},${map.getBearing().toFixed(1)}`;
 	  }
 	  return '';
   }
 
-	map.on('move', (e) => {
-		if (map) {
-			let {lng, lat} = map.getCenter();
-			let zoom = map.getZoom();
+  // debounce function generator
+  const debounce = (func, wait, immediate) => {
+	  let timeout;
+	  return function() {
+		  let context = this, args = arguments;
+		  let later = function() {
+			  timeout = null;
+			  if (!immediate) func.apply(context, args);
+		  };
+		  let callNow = immediate && !timeout;
+		  clearTimeout(timeout);
+		  timeout = setTimeout(later, wait);
+		  if (callNow) func.apply(context, args);
+	  };
+  };
 
-			window.history.replaceState(null, 'map',
-				`/map/@${lat.toFixed( zoom / 3 )},${lng.toFixed( zoom / 3 )}`
-					+ `,${zoom.toFixed(1)}z${pitchBearing()}`);
-		}
-	});
+  // debounce setting the map viewport in the URL
+  const debounceUrl = debounce(() => {
+	  if (map) {
+		  let {lng, lat} = map.getCenter();
+		  let zoom = map.getZoom();
+	    window.history.replaceState(null, 'map',
+		    `/map/@${lat.toFixed( zoom / 3 )},${lng.toFixed( zoom / 3 )}`
+		    + `,${zoom.toFixed(1)}z${pitchBearing()}`);
+	  }
+	}, 250);
+
+	map.on('move', debounceUrl);
 </script>
