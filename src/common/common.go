@@ -102,6 +102,15 @@ func GenPageModel(name string, data interface{}) PageModel {
 	}
 }
 
+// MapHash is a struct containing map page route parameters
+type MapHash struct {
+	Lat     float64
+	Lon     float64
+	Zoom    float64
+	Pitch   float64
+	Bearing float64
+}
+
 // PickFS returns either an embedded FS or an on-disk FS for the
 // given directory path
 func PickFS(useDisk bool, e embed.FS, dir string) http.FileSystem {
