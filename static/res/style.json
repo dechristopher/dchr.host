@@ -5,7 +5,7 @@
     "basemap": {
       "type": "vector",
       "tiles": [
-        "https://tile.dchr.host/{z}/{x}/{y}.pbf"
+        "https://tilefund.b-cdn.net/{z}/{x}/{y}.pbf"
       ],
       "attribution": "&copy; OpenStreetMap contributors",
       "minzoom": 0,
