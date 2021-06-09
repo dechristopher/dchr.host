@@ -7,7 +7,7 @@
       "tiles": [
         "https://tile.dchr.host/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "&copy; OpenStreetMap contributors",
+      "attribution": "&copy; Andrew DeChristopher and OpenStreetMap contributors",
       "minzoom": 0,
       "maxzoom": 16
     }
