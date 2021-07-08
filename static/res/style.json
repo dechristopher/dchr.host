@@ -3462,7 +3462,7 @@
       "source": "basemap",
       "source-layer": "building",
       "minzoom": 12,
-      "maxzoom": 14,
+      "maxzoom": 16,
       "layout": {
         "visibility": "visible"
       },
