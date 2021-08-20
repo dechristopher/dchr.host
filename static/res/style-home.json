@@ -10,15 +10,6 @@
       "attribution": "&copy; Andrew DeChristopher and OpenStreetMap contributors",
       "minzoom": 0,
       "maxzoom": 16
-    },
-    "tornadoes": {
-      "type": "vector",
-      "tiles": [
-        "https://tile.dchr.host/tornadoes/{z}/{x}/{y}.pbf"
-      ],
-      "attribution": "&copy; NOAA",
-      "minzoom": 0,
-      "maxzoom": 16
     }
   },
   "glyphs": "https://dchr.host/carto/font/{fontstack}/{range}.pbf",
@@ -5052,66 +5043,6 @@
       }
     },
     {
-      "id": "tornado_line_casing",
-      "type": "line",
-      "source": "tornadoes",
-      "source-layer": "tornado",
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": "#000000",
-        "line-gap-width": [
-          "interpolate", [ "linear" ], [ "zoom" ],
-          2, 0.5,
-          9, 2.5
-        ],
-        "line-width": 0.7
-      }
-    },
-    {
-      "id": "tornado_line",
-      "type": "line",
-      "source": "tornadoes",
-      "source-layer": "tornado",
-      "layout": {
-        "line-join": "round",
-        "line-cap": "round"
-      },
-      "paint": {
-        "line-color": [
-          "match", [ "get", "mag" ],
-          0, "#00FAF4",
-          1, "#FFFFCC",
-          2, "#FFE775",
-          3, "#FFC140",
-          4, "#FF8F20",
-          5, "#FF6060",
-          "#FFFFFF"
-        ],
-        "line-width": [
-          "interpolate", [ "linear" ], [ "zoom" ],
-          2, 0.5,
-          9, 2.5
-        ]
-      }
-    },
-    {
-      "id": "tornado_line_buffer",
-      "type": "line",
-      "source": "tornadoes",
-      "source-layer": "tornado",
-      "paint": {
-        "line-color": "rgba(0,0,0,0)",
-        "line-width": [
-          "interpolate", [ "linear" ], [ "zoom" ],
-          2, 1.5,
-          9, 7.5
-        ]
-      }
-    },
-    {
       "id": "water_name_line",
       "type": "symbol",
       "source": "basemap",
@@ -5925,36 +5856,6 @@
         "text-color": "rgba(135, 135, 135, 1)",
         "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 1.5
-      }
-    },
-    {
-      "id": "tornado_line_label",
-      "type": "symbol",
-      "source": "tornadoes",
-      "source-layer": "tornado",
-      "minzoom": 0,
-      "layout": {
-        "text-font": [ "Roboto Regular" ],
-        "text-size": 15,
-        "text-field": "F{mag}",
-        "visibility": "visible",
-        "text-offset": [0, -0.45],
-        "text-letter-spacing": 0.15,
-        "symbol-placement": "line-center"
-      },
-      "paint": {
-        "text-color": [
-          "match", [ "get", "mag" ],
-          0, "#00FAF4",
-          1, "#FFFFCC",
-          2, "#FFE775",
-          3, "#FFC140",
-          4, "#FF8F20",
-          5, "#FF6060",
-          "#000000"
-        ],
-        "text-halo-color": "rgba(0,0,0,0.7)",
-        "text-halo-width": 1
       }
     },
     {
