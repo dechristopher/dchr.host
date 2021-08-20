@@ -56,7 +56,9 @@
 	});
 
 	// Add zoom and rotation controls to the map.
-	map.addControl(new mapboxgl.NavigationControl());
+	map.addControl(new mapboxgl.NavigationControl({
+	  visualizePitch: true
+	}));
 
 	// Create a popup, but don't add it to the map yet.
 	const popup = new mapboxgl.Popup({
@@ -65,7 +67,7 @@
 	});
 
 	map.on('mousemove', 'tornado_line_buffer', (e) => {
-		// Change the cursor style as a UI indicator.
+		// Change the cursor style to the UI indicator.
 		map.getCanvas().style.cursor = 'pointer';
 
 		const props = e.features[0].properties;
@@ -73,9 +75,10 @@
 		const description = `<b>Time:</b> ${props.date} @ ${props.time}<br />`
 			+ `<b>Damage:</b> F${props.mag} <b>Injuries:</b> ${props.inj}`;
 
-// Populate the popup and set its coordinates
-// based on the feature found.
-		popup.setLngLat(e.lngLat).setHTML(description).addTo(map);
+		// Populate the popup and set its coordinates based on the feature found.
+		popup.setLngLat(e.lngLat)
+				.setHTML(description)
+				.addTo(map);
 	});
 
 	map.on('mouseleave', 'tornado_line_buffer', () => {
