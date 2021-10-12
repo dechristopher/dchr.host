@@ -2,7 +2,7 @@
 # service from a minimal container
 
 # ---- Build Stage ----
-FROM golang:1.16.4-alpine3.13 as builder
+FROM golang:1.17-alpine3.14 as builder
 
 WORKDIR /build
 
