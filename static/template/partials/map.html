@@ -1,6 +1,4 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mapbox-gl/1.13.1/mapbox-gl.min.js"
-				integrity="sha512-WyDTdfP+imWTh/TVkV0xSt25+8GKtsChAgi2zuVJtxFyseDAFI3oKnf5AZoaQ7pD1190EpO3ccUJXJk02z2jvw=="
-				crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src='https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js' crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
 	const lat = '{{ .Lat }}';
 	const lon = '{{ .Lon }}';
@@ -40,7 +38,7 @@
 		return bearing;
 	};
 
-	let map = new mapboxgl.Map({
+	let map = new maplibregl.Map({
 		container: 'map',
 		style: '/style.json',
 		center: getCenter(),
@@ -49,19 +47,19 @@
 			[-68.26, 43.42]
 		],
 		minZoom: 7,
-		maxZoom: 17,
+		maxZoom: 19,
 		zoom: getZoom(),
 		pitch: getPitch(),
 		bearing: getBearing()
 	});
 
 	// Add zoom and rotation controls to the map.
-	map.addControl(new mapboxgl.NavigationControl({
+	map.addControl(new maplibregl.NavigationControl({
 	  visualizePitch: true
 	}));
 
 	// Create a popup, but don't add it to the map yet.
-	const popup = new mapboxgl.Popup({
+	const popup = new maplibregl.Popup({
 		closeButton: false,
 		closeOnClick: false
 	});
