@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
 
-// WireHandlers builds all of the websocket and http routes
+// WireHandlers builds all the websocket and http routes
 // into the fiber app context
 func WireHandlers(r *fiber.App, resourcesFs http.FileSystem) {
 	// recover from panics
