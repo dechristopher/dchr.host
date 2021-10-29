@@ -46,6 +46,23 @@
 		  cursor: pointer;
 	  }
 
+    #shroud {
+      z-index: 999;
+      background-color: rgba(246, 241, 229, 1);
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      opacity: 1;
+      transition: opacity .25s ease-in-out;
+      -moz-transition: opacity .25s ease-in-out;
+      -webkit-transition: opacity .25s ease-in-out;
+    }
+
+    .fadeOut {
+      opacity: 0 !important;
+    }
+
 	  #map {
 		  position: absolute;
 		  top: 0;

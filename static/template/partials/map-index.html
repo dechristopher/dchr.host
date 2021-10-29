@@ -5,8 +5,8 @@
 		style: '/style-home.json',
 		interactive: false,
 		center: [
-			-71.09718292951584,
-			42.34666268846195
+			-71.09718292951584 + (Math.random() - 0.5) * 0.15,
+			42.34666268846195 + (Math.random() - 0.5) * 0.15
 		],
 		maxBounds: [
 			[-74.92, 40.55],
@@ -17,11 +17,16 @@
 		pitch: 50
 	});
 
+	map.on('load', () => {
+		console.log("fadeOut");
+		document.getElementById("shroud").className = "fadeOut";
+	});
+
 	const fly = () => {
 		map.flyTo({
 			center: [
-				-71.09718292951584 + (Math.random() - 0.5) * 0.09,
-				42.34666268846195 + (Math.random() - 0.5) * 0.09
+				-71.09718292951584 + (Math.random() - 0.5) * 0.15,
+				42.34666268846195 + (Math.random() - 0.5) * 0.15
 			],
 			duration: 6000,
 			speed: 0.1,
