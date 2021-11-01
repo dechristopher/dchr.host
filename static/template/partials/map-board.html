@@ -1,0 +1,26 @@
+<script src='https://unpkg.com/maplibre-gl@1.15.2/dist/maplibre-gl.js' crossorigin="anonymous"
+				referrerpolicy="no-referrer"></script>
+<script>
+	let map = new maplibregl.Map({
+		container: 'map',
+		style: '/style-home.json',
+		interactive: false,
+		center: [
+			-71.104468,
+			42.401829
+		],
+		minZoom: 14,
+		zoom: 14.5,
+		pitch: 60
+	});
+
+	const rotateCamera = (timestamp) => {
+		map.rotateTo((timestamp / 900) % 360, {duration: 0});
+		requestAnimationFrame(rotateCamera);
+	}
+
+	map.on('load', () => {
+		document.getElementById("shroud").className = "fadeOut";
+		rotateCamera(0);
+	});
+</script>

@@ -24,6 +24,9 @@ func WireHandlers(r *fiber.App, resourcesFs http.FileSystem) {
 	// index handler
 	r.Get("/", indexHandler)
 
+	// board page handler
+	r.Get("/board", boardHandler)
+
 	// map handler
 	r.Get("/map", mapHandler)
 	r.Get("/map/:hash", mapHashHandler)
@@ -40,6 +43,12 @@ func WireHandlers(r *fiber.App, resourcesFs http.FileSystem) {
 func indexHandler(c *fiber.Ctx) error {
 	return common.HandleTemplate(c, "index",
 		"me", nil, 200)
+}
+
+// boardHandler executes the home page template
+func boardHandler(c *fiber.Ctx) error {
+	return common.HandleTemplate(c, "board",
+		"kilter board", nil, 200)
 }
 
 // mapHandler executes the map page template
