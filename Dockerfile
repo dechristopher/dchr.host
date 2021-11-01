@@ -8,7 +8,7 @@ FROM golang:1.17-alpine3.14 as builder
 WORKDIR /build
 
 # run this here to ensure we always get up to date root certs
-RUN apk --update add git ca-certificates && update-ca-certificates
+RUN apk --update add ca-certificates && update-ca-certificates
 
 ENV USER=svc
 ENV UID=10001
@@ -34,7 +34,7 @@ COPY src src
 # Compile in embedded assets (1.16+)
 COPY static static
 
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o main
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o main
 
 # ---- Run Stage ----
 FROM scratch
@@ -49,7 +49,7 @@ COPY --from=builder /etc/group /etc/group
 USER svc:svc
 
 # Copy over ca certificates so we can make external requests
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 
 # Copy statically linked binary with embedded assets
 COPY --from=builder build/main .
