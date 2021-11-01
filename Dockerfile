@@ -6,6 +6,9 @@ FROM golang:1.17-alpine3.14 as builder
 
 WORKDIR /build
 
+# run this here to ensure we always get up to date root certs
+RUN apk --update add ca-certificates
+
 COPY go.mod .
 COPY go.sum .
 
@@ -25,6 +28,9 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main
 FROM scratch
 
 LABEL maintainer="Andrew DeChristopher"
+
+# Copy over ca certificates so we can make external requests
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 
 # Copy statically linked binary with embedded assets
 COPY --from=builder build/main .
