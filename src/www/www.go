@@ -47,6 +47,12 @@ func indexHandler(c *fiber.Ctx) error {
 
 // boardHandler executes the home page template
 func boardHandler(c *fiber.Ctx) error {
+	go func() {
+		err := common.SendAlert("board", fmt.Sprintf("Board page viewed from IP: %s", c.IP()))
+		if err != nil {
+			fmt.Printf("failed to post discord webhook, err=%s", err.Error())
+		}
+	}()
 	return common.HandleTemplate(c, "board",
 		"kilter board", nil, 200)
 }

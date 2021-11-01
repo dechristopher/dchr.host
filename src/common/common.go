@@ -1,7 +1,9 @@
 package common
 
 import (
+	"context"
 	"embed"
+	"fmt"
 	"io/fs"
 	"log"
 	"net/http"
@@ -9,7 +11,9 @@ import (
 	"os"
 	"strings"
 
+	"github.com/andersfylling/snowflake"
 	"github.com/gofiber/fiber/v2"
+	"github.com/nickname32/discordhook"
 )
 
 type Env string
@@ -18,6 +22,25 @@ const (
 	Prod Env = "prod"
 	Dev  Env = "dev"
 )
+
+var wa *discordhook.WebhookAPI
+
+func init() {
+	webhookId := snowflake.ParseSnowflakeString(os.Getenv("WEBHOOK_ID"))
+
+	api, err := discordhook.NewWebhookAPI(webhookId, os.Getenv("WEBHOOK_TOKEN"),
+		false, nil)
+	if err != nil {
+		panic(err)
+	}
+
+	_, err = api.Get(context.Background())
+	if err != nil {
+		panic(err)
+	}
+
+	wa = api
+}
 
 // StrictFs is a Custom strict filesystem implementation to
 // prevent directory listings for resources
@@ -68,6 +91,22 @@ func GetEnv() Env {
 // IsProd returns true if running in production
 func IsProd() bool {
 	return GetEnv() == Prod
+}
+
+// SendAlert will POST a webhook to discord for alerting purposes
+func SendAlert(page, content string) error {
+	_, err := wa.Execute(context.Background(), &discordhook.WebhookExecuteParams{
+		Content: "received alert",
+		TTS:     false,
+		Embeds: []*discordhook.Embed{
+			{
+				Title:       fmt.Sprintf("%s (%s)", page, string(GetEnv())),
+				Description: content,
+			},
+		},
+	}, nil, "")
+
+	return err
 }
 
 // HandleTemplate will execute the http template engine
