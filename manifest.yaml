@@ -43,5 +43,15 @@ spec:
               value: "81"
             - name: DEPKEY
               value: "fazboaz"
+            - name: WEBHOOK_ID
+              valueFrom:
+                secretKeyRef:
+                  name: dchr-host-discord-webhook
+                  key: id
+            - name: WEBHOOK_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: dchr-host-discord-webhook
+                  key: token
 
 ---
