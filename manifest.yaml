@@ -11,7 +11,7 @@ spec:
       protocol: TCP
       nodePort: 30000
       port: 7770
-      targetPort: 81
+      targetPort: 8100
 
 ---
 
@@ -31,18 +31,18 @@ spec:
     spec:
       containers:
         - name: web-dchr-host
-          image: registry.gitlab.com/dechristopher/dchr.host:latest
+          image: registry.gitlab.com/dechristopher/dchr.host:prod
           imagePullPolicy: Always
           ports:
-            - containerPort: 81
+            - containerPort: 8100
               protocol: TCP
           env:
             - name: DEPLOY
               value: "prod"
             - name: PORT
-              value: "81"
+              value: "8100"
             - name: DEPKEY
-              value: "fuzboze"
+              value: "fizbaze"
             - name: WEBHOOK_ID
               valueFrom:
                 secretKeyRef:
