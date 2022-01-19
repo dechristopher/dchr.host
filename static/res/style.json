@@ -9,7 +9,7 @@
       ],
       "attribution": "&copy; Andrew DeChristopher and OpenStreetMap contributors",
       "minzoom": 0,
-      "maxzoom": 16
+      "maxzoom": 14
     },
     "tornadoes": {
       "type": "vector",
@@ -5095,6 +5095,25 @@
           2, 0.5,
           9, 2.5
         ]
+      }
+    },
+    {
+      "id": "tornado_line_stripe",
+      "type": "line",
+      "source": "tornadoes",
+      "source-layer": "tornado",
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round"
+      },
+      "paint": {
+        "line-color": "#666",
+        "line-width": [
+          "interpolate", [ "linear" ], [ "zoom" ],
+          2, 0.5,
+          9, 2.5
+        ],
+        "line-dasharray": [4, 10]
       }
     },
     {
