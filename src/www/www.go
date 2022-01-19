@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/dechristopher/dchr.host/src/branch"
 	"github.com/dechristopher/dchr.host/src/common"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
@@ -30,10 +29,6 @@ func WireHandlers(r *fiber.App, resourcesFs http.FileSystem) {
 	// map handler
 	r.Get("/map", mapHandler)
 	r.Get("/map/:hash", mapHashHandler)
-
-	// branch calculator handlers
-	r.Get("/branch", branch.Handler)
-	r.Post("/branch", branch.CalcHandler)
 
 	// Custom 404 page
 	NotFound(r)
