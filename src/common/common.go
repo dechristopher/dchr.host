@@ -34,11 +34,6 @@ func init() {
 		panic(err)
 	}
 
-	_, err = api.Get(context.Background())
-	if err != nil {
-		panic(err)
-	}
-
 	wa = api
 }
 

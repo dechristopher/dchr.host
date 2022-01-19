@@ -35,7 +35,7 @@ func main() {
 	_ = godotenv.Load()
 	port = os.Getenv("PORT")
 
-	log.Printf("DCHR.HOST - :%s - %s", port, common.GetEnv())
+	log.Printf("DCHR.HOST - :%s [%s]", port, common.GetEnv())
 
 	// make filesystem location decision based on environment
 	templateFs = common.PickFS(!common.IsProd(), templates, "./static/template")
