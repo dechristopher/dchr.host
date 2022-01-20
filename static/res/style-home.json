@@ -9,7 +9,7 @@
       ],
       "attribution": "&copy; Andrew DeChristopher and OpenStreetMap contributors",
       "minzoom": 0,
-      "maxzoom": 16
+      "maxzoom": 14
     }
   },
   "glyphs": "https://dchr.host/carto/font/{fontstack}/{range}.pbf",
