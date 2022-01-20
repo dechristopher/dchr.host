@@ -2,7 +2,7 @@
 type = "file"
 basepath = "/osm/tegola/cache"
 
-# OSM (OpenMapTiles Compat)
+# OSM (OpenMapTiles Compat) Massachusetts
 [[providers]]
 name = "osm"             # provider name referenced from map layers (required)
 type = "postgis"         # the type of data provider. currently only supports postgis (required)
@@ -18,8 +18,8 @@ max_connections = 64     # The max connections to maintain in the connection poo
 name = "aerodrome_label"
 geometry_type = "point"
 geometry_fieldname = "geom"
-id_fieldname = "osm_id"
-sql = "SELECT ST_AsBinary(geometry) AS geom, osm_id, name, name_en, name_de, tags, class, iata, icao, ele, ele_ft FROM layer_aerodrome_label(!BBOX!, !ZOOM!)"
+id_fieldname = "id"
+sql = "SELECT ST_AsBinary(geometry) AS geom, id, name, name_en, name_de, tags, class, iata, icao, ele, ele_ft FROM layer_aerodrome_label(!BBOX!, !ZOOM!)"
 
 [[providers.layers]]
 name = "aeroway"
@@ -146,7 +146,7 @@ center = [-71.48, 42.08, 7.0]
 [[maps.layers]]
 provider_layer = "noaa.tornado"
 min_zoom = 0
-max_zoom = 16
+max_zoom = 9
 
 [[maps]]
 name = "basemap"
@@ -155,80 +155,80 @@ center = [-71.48, 42.08, 7.0]
 
 [[maps.layers]]
 provider_layer = "osm.aerodrome_label"
-min_zoom = 10
-max_zoom = 16
+min_zoom = 8
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.aeroway"
 min_zoom = 11
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.boundary"
 min_zoom = 0
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.building"
 min_zoom = 13
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.housenumber"
-min_zoom = 16
-max_zoom = 16
+min_zoom = 14
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.landcover"
 min_zoom = 0
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.landuse"
 min_zoom = 0
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.mountain_peak"
 min_zoom = 7
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.park"
 min_zoom = 0
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.place"
 min_zoom = 0
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.poi"
-min_zoom = 14
-max_zoom = 16
+min_zoom = 12
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.transportation"
-min_zoom = 0
-max_zoom = 16
+min_zoom = 4
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.transportation_name"
-min_zoom = 0
-max_zoom = 16
+min_zoom = 6
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.water"
 min_zoom = 0
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.water_name"
 min_zoom = 0
-max_zoom = 16
+max_zoom = 14
 
 [[maps.layers]]
 provider_layer = "osm.waterway"
-min_zoom = 0
-max_zoom = 16
+min_zoom = 3
+max_zoom = 14
