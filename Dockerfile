@@ -36,12 +36,9 @@ COPY static static
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o main
 
 # ---- Run Stage ----
-FROM alpine:3.15.0 as prod
+FROM scratch as prod
 
 LABEL maintainer="Andrew DeChristopher"
-
-# Run this here to ensure we always get up to date root certs
-RUN apk update && apk add --no-cache ca-certificates && update-ca-certificates
 
 # Import the user and group files from the builder
 COPY --from=builder /etc/passwd /etc/passwd
