@@ -95,7 +95,7 @@ func mapHashHandler(c *fiber.Ctx) error {
 				fmt.Printf("invalid zoom provided: %s, err: %s", part, err.Error())
 				continue
 			}
-			if zoom >= 6 && zoom <= 19 {
+			if zoom >= 0 && zoom <= 19 {
 				hash.Zoom = zoom
 			}
 		case 3:
