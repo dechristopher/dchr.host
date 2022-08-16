@@ -104,7 +104,7 @@ func mapHashHandler(c *fiber.Ctx) error {
 				fmt.Printf("invalid pitch provided: %s, err: %s", part, err.Error())
 				continue
 			}
-			if pitch >= 0 && pitch <= 60 {
+			if pitch >= 0 && pitch <= 70 {
 				hash.Pitch = pitch
 			}
 		case 4:
