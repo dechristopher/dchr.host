@@ -42,7 +42,7 @@ spec:
             - name: PORT
               value: "8100"
             - name: DEPKEY
-              value: "fyzbaze"
+              value: "fyzbazu"
             - name: WEBHOOK_ID
               valueFrom:
                 secretKeyRef:
