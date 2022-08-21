@@ -2,7 +2,7 @@
 # container built from the golang:alpine image
 
 # ---- Build Stage ----
-FROM golang:1.17.2-alpine3.14 as builder
+FROM golang:1.18.2-alpine3.14 as builder
 
 WORKDIR /build
 
