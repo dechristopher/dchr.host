@@ -7,7 +7,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.32.0
 	github.com/gofiber/template v1.6.27
 	github.com/joho/godotenv v1.4.0
-	github.com/nickname32/discordhook v1.0.2
+	github.com/nickname32/discordhook v1.1.2
 )
 
 require (
